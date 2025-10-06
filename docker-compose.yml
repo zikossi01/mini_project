@@ -10,15 +10,24 @@ services:
       - mongo-data:/data/db
 
   backend:
-    build: .
+    build: ./backend
     container_name: backend_container
     ports:
-      - "5003 :5000"
+      - "5003:5000"   
     environment:
-      - MONGODB_URI=mongodb://mongo:27017/mydb   
+      - MONGODB_URI=mongodb://mongo:27017/blogdb
       - PORT=5000
+      - JWT_SECRET=926979437e2382fb10309f81dbd2918e3a41f81e4452878ecfb8f594cac3a9b2
     depends_on:
       - mongo
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_container
+    ports:
+      - "3000:80"     
+    depends_on:
+      - backend
 
 volumes:
   mongo-data:
